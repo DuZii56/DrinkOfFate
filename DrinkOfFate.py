@@ -10,13 +10,10 @@ virgin = [13, 33, 43, 53, 59, 93, 125, 187, 208, 217, 229, 291, 313, 317, 335, 3
 def main():
     roll = random.randint(12, 349)
     while roll in virgin or roll in category:
-        print("Virgin")
         roll = random.randint(12, 349)
     if roll in display_page and (roll%2==0):
-        print("Display Even")
         roll = roll + 2
     elif roll in display_page and (roll%2==1):
-        print("Display Odd")
         roll = roll + 1
     print(roll)
 

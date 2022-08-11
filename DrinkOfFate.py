@@ -25,8 +25,8 @@ def main():
     print("Page:", roll)
     for i in drink_list:
         if roll in i["page"]:
-            print(["name"])
+            print('"' + i["name"] + '"')
             for j in i["ingredients"]:
                 print(" ", j)
-            print(i["glass"])
+            print("Glass:", (i["glass"]))
 main()

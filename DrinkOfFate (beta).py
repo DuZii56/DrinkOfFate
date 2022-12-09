@@ -40,4 +40,7 @@ def main():
                     for j in i["ingredients"]:
                         print(" ", j)
                     print("Glass:", (i["glass"]))
+    #Theory: Drinks must be filtered by ingredients first...
+    #...append to a list for the page number...
+    #...pick a random number from the pages appended.
 main()

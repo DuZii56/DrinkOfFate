@@ -4,8 +4,9 @@ import os
 
 script_dir = os.path.dirname(__file__)
 
-ingredients_list = [] #Implement a list that will filter the results based on what the user has in stock.
+ingredients_list = []
 drink_list = []
+fate = []
 category = [78, 79, 140, 141, 202, 203, 260, 261, 310, 311, 350, 351]
 display_page = [30, 31, 38, 39, 50, 51, 56, 57, 68, 69, 
     90, 91, 108, 109, 118, 119, 122, 123, 154, 155, 
@@ -14,33 +15,31 @@ display_page = [30, 31, 38, 39, 50, 51, 56, 57, 68, 69,
 virgin = [13, 33, 43, 53, 59, 93, 125, 186, 187, 208, 217, 229, 291, 313, 317, 335, 352, 353, 355, 356]
 
 def main():
+    #Read all recipies
     with open(script_dir + "/ListOfDrinks.json", "r") as f:
         for line in f:
             drink_list.append(json.loads(line))
     f.close()
 
-    with open(script_dir + "/IngredientsList.json", "r") as f:
-        for line in f:
-            ingredients_list.append(json.loads(line))
+    #All available ingredients
+    with open(script_dir + "/IngredientsList.txt", "r") as f:
+        ingredients_list = f.read()
     f.close
-
-    #roll = random.randint(12, 349)
-    #while roll in virgin or roll in category:
-    #    roll = random.randint(12, 349)
-    #if roll in display_page and (roll%2==0):
-    #    roll = roll + 2
-    #elif roll in display_page and (roll%2==1):
-    #    roll = roll + 1
-    for i in drink_list:
-        for g in ingredients_list:
-            if g["glass"] in i["glass"]:
-                #if roll in i["page"]:
-                    #print("Page:", roll)
-                    print('"' + i["name"] + '"')
-                    for j in i["ingredients"]:
-                        print(" ", j)
-                    print("Glass:", (i["glass"]))
-    #Theory: Drinks must be filtered by ingredients first...
-    #...append to a list for the page number...
-    #...pick a random number from the pages appended.
+    ingredients_list = ingredients_list.replace("[", "").replace("]", "").replace("\n", "").split(",")
+    #Picks drinks based on ingredients in stock
+    for drink in drink_list:
+        if set(drink["ingredients"]).issubset(ingredients_list):
+            fate.append(drink)
+    result = random.randint(0,len(fate)-1)
+    try:
+        print('"' + fate[result]["name"] + '"')
+        for j in fate[result]["proportions"]:
+            print(" ", j)
+        print("Glass:", (fate[result]["glass"] + "\n"))
+    except:
+        print("No drinks available :(")
+        
+    #Developer notes:
+    #Create a UI.
+    #Current version does not consider alternative ingredients (i.e. milk or cream)
 main()
